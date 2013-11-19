@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <camelContext id="xmlRoute" xmlns="http://camel.apache.org/schema/spring">
+
+        <route>
+            <from uri="direct:createSchema"/>
+
+
+            <setHeader headerName="GoraOperation">
+                <constant>CreateSchema</constant>
+            </setHeader>
+            <to uri="gora:foobar?keyClass=java.lang.Long&amp;valueClass=org.apache.camel.component.gora.generated.Pageview&amp;dataStoreClass=org.apache.gora.hbase.store.HBaseStore"/>
+
+            <to uri="mock:result"/>
+        </route>
+
+        <route>
+            <from uri="direct:schemaExist"/>
+
+
+            <setHeader headerName="GoraOperation">
+                <constant>SchemaExists</constant>
+            </setHeader>
+            <to uri="gora:foobar?keyClass=java.lang.Long&amp;valueClass=org.apache.camel.component.gora.generated.Pageview&amp;dataStoreClass=org.apache.gora.hbase.store.HBaseStore"/>
+
+            <to uri="mock:result"/>
+        </route>
+
+        <route>
+            <from uri="direct:put"/>
+
+            <setHeader headerName="GoraOperation">
+                <constant>put</constant>
+            </setHeader>
+            <setHeader headerName="GoraKey">
+                <constant>22222</constant>
+            </setHeader>
+
+            <to uri="gora:foo?keyClass=java.lang.Long&amp;valueClass=org.apache.camel.component.gora.generated.Pageview&amp;dataStoreClass=org.apache.gora.hbase.store.HBaseStore"/>
+
+            <to uri="mock:result"/>
+        </route>
+
+        <route>
+            <from uri="direct:putCode"/>
+
+            <to uri="gora:foo?keyClass=java.lang.Long&amp;valueClass=org.apache.camel.component.gora.generated.Pageview&amp;dataStoreClass=org.apache.gora.hbase.store.HBaseStore"/>
+
+            <to uri="mock:result"/>
+        </route>
+
+        <route>
+            <from uri="direct:get"/>
+
+            <setHeader headerName="GoraOperation">
+                <constant>GET</constant>
+            </setHeader>
+            <setHeader headerName="GoraKey">
+                <constant>10101</constant>
+            </setHeader>
+            <to uri="gora:bar?keyClass=java.lang.Long&amp;valueClass=org.apache.camel.component.gora.generated.Pageview&amp;dataStoreClass=org.apache.gora.hbase.store.HBaseStore"/>
+
+            <to uri="mock:result"/>
+        </route>
+
+        <route>
+            <from uri="direct:getCode"/>
+
+            <to uri="gora:bar?keyClass=java.lang.Long&amp;valueClass=org.apache.camel.component.gora.generated.Pageview&amp;dataStoreClass=org.apache.gora.hbase.store.HBaseStore"/>
+
+            <to uri="mock:result"/>
+        </route>
+
+        <route>
+            <from uri="direct:delete"/>
+
+            <setHeader headerName="GoraOperation">
+                <constant>DELETE</constant>
+            </setHeader>
+            <setHeader headerName="GoraKey">
+                <constant>22222</constant>
+            </setHeader>
+            <to uri="gora:bar?keyClass=java.lang.Long&amp;valueClass=org.apache.camel.component.gora.generated.Pageview&amp;dataStoreClass=org.apache.gora.hbase.store.HBaseStore"/>
+
+            <to uri="mock:result"/>
+        </route>
+
+        <route>
+            <from uri="direct:deleteCode"/>
+
+            <to uri="gora:bar?keyClass=java.lang.Long&amp;valueClass=org.apache.camel.component.gora.generated.Pageview&amp;dataStoreClass=org.apache.gora.hbase.store.HBaseStore"/>
+
+            <to uri="mock:result"/>
+        </route>
+
+        <route>
+            <from uri="direct:getSchemaName"/>
+
+            <setHeader headerName="GoraOperation">
+                <constant>GetSchemaName</constant>
+            </setHeader>
+            <to uri="gora:foobar?keyClass=java.lang.Long&amp;valueClass=org.apache.camel.component.gora.generated.Pageview&amp;dataStoreClass=org.apache.gora.hbase.store.HBaseStore"/>
+
+            <to uri="mock:result"/>
+        </route>
+
+        <route>
+            <from uri="direct:getSchemaNameCode"/>
+
+            <to uri="gora:foobar?keyClass=java.lang.Long&amp;valueClass=org.apache.camel.component.gora.generated.Pageview&amp;dataStoreClass=org.apache.gora.hbase.store.HBaseStore"/>
+
+            <to uri="mock:result"/>
+        </route>
+
+        <route>
+            <from uri="direct:deleteSchema"/>
+
+            <to uri="gora:foobar?keyClass=java.lang.Long&amp;valueClass=org.apache.camel.component.gora.generated.Pageview&amp;dataStoreClass=org.apache.gora.hbase.store.HBaseStore"/>
+
+            <to uri="mock:result"/>
+        </route>
+
+
+        <route>
+            <from uri="direct:deleteByQuery"/>
+
+            <setHeader headerName="GoraOperation">
+                <constant>DeleteByQuery</constant>
+            </setHeader>
+            <to uri="gora:foobar?startTime=1&amp;keyClass=java.lang.Long&amp;valueClass=org.apache.camel.component.gora.generated.Pageview&amp;dataStoreClass=org.apache.gora.hbase.store.HBaseStore"/>
+
+            <to uri="mock:result"/>
+        </route>
+
+
+        <route>
+            <from uri="direct:query"/>
+
+            <to uri="gora:foobar?keyClass=java.lang.Long&amp;valueClass=org.apache.camel.component.gora.generated.Pageview&amp;dataStoreClass=org.apache.gora.hbase.store.HBaseStore"/>
+            <process ref="stdOutPrinter"/>
+
+            <to uri="mock:result"/>
+        </route>
+
+    </camelContext>
+
+
+
+    <bean id="stdOutPrinter"
+          class="org.apache.camel.component.gora.processor.StdOutPrinter" />
+
+</beans>
